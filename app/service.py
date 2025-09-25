@@ -17,8 +17,9 @@ class TasksService:
         dto = TasksSchemas.model_validate(orm, from_attributes=True)
         return dto
 
-    async def service_create_task(self, new_data: TasksAddSchemas):
-        orm = Tasks(title=new_data.title, is_complete=new_data.is_complete)
+    async def service_create_task(self, new_data):
+        dto = TasksAddSchemas(title=new_data)
+        orm = Tasks(title=dto.title, is_complete=dto.is_complete)
         res = await self.task_dao.dao_create_task(orm)
         return res
 
@@ -27,8 +28,8 @@ class TasksService:
         res = await self.task_dao.dao_update_task(orm)
         return res
 
-    async def service_update_complete_task(self, id: int, flag: bool):
-        res = await self.task_dao.dao_update_complete_task(id, flag)
+    async def service_update_complete_task(self, id: int):
+        res = await self.task_dao.dao_update_complete_task(id)
         return res
 
     async def service_delete_task(self, id: int):

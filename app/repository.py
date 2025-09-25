@@ -7,7 +7,7 @@ class TasksDAO:
 
     async def dao_get_all_tasks(self):
         async with session_factory() as session:
-            query = select(Tasks)
+            query = select(Tasks).order_by(Tasks.id)
             res = await session.execute(query)
             orm = res.scalars().all()
             return orm
@@ -31,10 +31,10 @@ class TasksDAO:
                 old_data.is_complete = new_data.is_complete
             await session.commit()
 
-    async def dao_update_complete_task(self, id: int, flag: bool):
+    async def dao_update_complete_task(self, id: int):
         async with session_factory() as session:
             old_data = await session.get(Tasks, id)
-            old_data.is_complete = flag
+            old_data.is_complete = False if old_data.is_complete == True else True
             await session.commit()
 
     async def dao_delete_task(self, id: int):
