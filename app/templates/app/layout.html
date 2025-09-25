@@ -15,11 +15,18 @@
         <button class="ui teal basic button" type="submit">Добавить</button>
     </form>
 
-
-    <form class="ui form" action="{{ url_for('pidr_ebaniie') }}" method="put">
-        <input type="text" name="task_id" placeholder="Введите название задачи"><br>
-        <button class="ui teal basic button" type="submit">Добавить</button>
-    </form>
-
+    {% for todo in tasks_list %}
+        <div class="ui segment">
+            <p class="ui big header">№{{ todo.id }} {{ todo.title }}</p>
+            {% if todo.is_complete == False %}
+            <span class="ui gray label">Не завершено</span>
+            <a class="ui primary basic button" href="{{ url_for('update_task', task_id=todo.id) }}">Закрыть</a> #
+            {% else %}
+            <span class="ui green label">Завершено</span>
+            <a class="ui blue button" href="{{ url_for('update_task', task_id=todo.id) }}">Открыть</a> #
+            <a class="ui negative basic button" href="{{ url_for('delete_task', task_id=todo.id) }}">Удалить</a> #
+            {% endif %}
+        </div>
+    {% endfor %}
 </div>
 {% endblock content %}
