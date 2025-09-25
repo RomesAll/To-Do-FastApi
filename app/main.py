@@ -26,12 +26,13 @@ async def create_task(title: str = Form(...)):
     url = app.url_path_for('get_all_tasks')
     return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
 
-# @app.put('/task/update')
-# async def update_task(task_id: int = Form(...)):
-#     service = TasksService()
-#     await service.service_update_complete_task(task_id)
-#     url = app.url_path_for('get_all_tasks')
-#     return RedirectResponse(url=url)
+@app.put('/pidr')
+async def pidr_ebaniie(task_id: int = Form(...)):
+    service = TasksService()
+    await service.service_update_complete_task(task_id)
+    url = app.url_path_for('get_all_tasks')
+    return RedirectResponse(url=url, status_code=HTTP_303_SEE_OTHER)
+
 
 @app.delete('/task/delete/{task_id}')
 async def delete_task(task_id: int):
